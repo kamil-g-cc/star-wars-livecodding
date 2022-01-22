@@ -14,7 +14,11 @@ function onReadyStateChangeListener(){
         responseJSON = JSON.parse(request.response);
         planetList = responseJSON.results;
 
-        //addPlanet()
+        planetList.forEach( (planet) => {
+            // console.log(item);
+            addPlanet(planet.name, planet.diameter);
+        });
+        //
     }
 }
 
