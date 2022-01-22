@@ -8,6 +8,22 @@ function createAndSendRequest(){
     request.send();
 }
 
+function getNextPlanets(url){
+    request = new XMLHttpRequest();
+    request.onreadystatechange = onReadyStateChangeListener;
+    request.open("GET", url, true);
+    document.getElementById('planets').innerHTML = "";
+    request.send();
+
+}
+function getPreviousPlanets(url){
+    request = new XMLHttpRequest();
+    request.onreadystatechange = onReadyStateChangeListener;
+    request.open("GET", url, true);
+    document.getElementById('planets').innerHTML = "";
+    request.send();
+}
+
 function toCoMaBycZrobioneDlaKazdegoElementu(el,idx,list){
     addPlanet(el.name, el.diameter);
     
@@ -38,8 +54,16 @@ function onReadyStateChangeListener(){
         }
         */
         //piaty sposob
-        for(planet of planetList){
+        for(let planet of planetList){
             addPlanet(planet.name, planet.diameter);
+        }
+        document.getElementById("next").disabled = responseJSON.next?false:true;
+        document.getElementById("previous").disabled = responseJSON.previous?false:true;
+        document.getElementById("next").onclick = function () {
+            getNextPlanets(responseJSON.next);
+        }
+        document.getElementById("previous").onclick = function () {
+            getPreviousPlanets(responseJSON.previous);
         }
 
     }
@@ -58,5 +82,7 @@ function addPlanet(name, diameter){
 
     document.getElementById('planets').appendChild(tableRow);
 }
+
+
 
 createAndSendRequest();
