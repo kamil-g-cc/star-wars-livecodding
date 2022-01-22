@@ -11,6 +11,7 @@ function createAndSendRequest(){
 }
 
 function getNextPlanets(evnt, url){
+    this.disabled = true
     if(url === undefined) url = nextURL;
     request = new XMLHttpRequest();
     request.onreadystatechange = onReadyStateChangeListener;
@@ -20,12 +21,14 @@ function getNextPlanets(evnt, url){
 
 }
 function getPreviousPlanets(event, url){
+    this.disabled = true
     if(url === undefined) url = prevURL;
     request = new XMLHttpRequest();
     request.onreadystatechange = onReadyStateChangeListener;
     request.open("GET", url, true);
     document.getElementById('planets').innerHTML = "";
     request.send();
+   
 }
 
 function toCoMaBycZrobioneDlaKazdegoElementu(el,idx,list){
@@ -62,6 +65,7 @@ function onReadyStateChangeListener(){
         //piaty sposob
         for(let planet of planetList){
             addPlanet(planet.name, planet.diameter);
+
         }
         nextButton.disabled = responseJSON.next?false:true;
         prevButton.disabled = responseJSON.previous?false:true;
