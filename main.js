@@ -1,6 +1,8 @@
 let request = new XMLHttpRequest();
 let responseJSON = {results: null};
 let planetList = null
+let prevURL, nextURL;
+let nextButton, prevButton;
 
 function createAndSendRequest(){
     request.onreadystatechange = onReadyStateChangeListener;
@@ -8,7 +10,8 @@ function createAndSendRequest(){
     request.send();
 }
 
-function getNextPlanets(url){
+function getNextPlanets(evnt, url){
+    if(url === undefined) url = nextURL;
     request = new XMLHttpRequest();
     request.onreadystatechange = onReadyStateChangeListener;
     request.open("GET", url, true);
@@ -16,7 +19,8 @@ function getNextPlanets(url){
     request.send();
 
 }
-function getPreviousPlanets(url){
+function getPreviousPlanets(event, url){
+    if(url === undefined) url = prevURL;
     request = new XMLHttpRequest();
     request.onreadystatechange = onReadyStateChangeListener;
     request.open("GET", url, true);
@@ -28,6 +32,8 @@ function toCoMaBycZrobioneDlaKazdegoElementu(el,idx,list){
     addPlanet(el.name, el.diameter);
     
 }
+
+
 
 function onReadyStateChangeListener(){
     console.log(request.readyState);
@@ -57,14 +63,24 @@ function onReadyStateChangeListener(){
         for(let planet of planetList){
             addPlanet(planet.name, planet.diameter);
         }
-        document.getElementById("next").disabled = responseJSON.next?false:true;
-        document.getElementById("previous").disabled = responseJSON.previous?false:true;
+        nextButton.disabled = responseJSON.next?false:true;
+        prevButton.disabled = responseJSON.previous?false:true;
+        nextURL = responseJSON.next;
+        prevURL = responseJSON.previous;
+        /*
+        nextButton.removeEventListener('click', getNextPlanets);
+        prevButton.removeEventListener('click', getPreviousPlanets);
+
+        nextButton.addEventListener('click', getNextPlanets)
+        prevButton.addEventListener('click', getPreviousPlanets)
+        */
+        /*
         document.getElementById("next").onclick = function () {
             getNextPlanets(responseJSON.next);
         }
         document.getElementById("previous").onclick = function () {
             getPreviousPlanets(responseJSON.previous);
-        }
+        }*/
 
     }
 }
@@ -84,5 +100,16 @@ function addPlanet(name, diameter){
 }
 
 
+nextButton = document.getElementById("next");
+prevButton = document.getElementById("previous");
+/*
+//pierwszy sposob, ale uwaga, bo nastepne wywolanie DODA listenera
+nextButton.addEventListener('click', getNextPlanets)
+prevButton.addEventListener('click', getPreviousPlanets)
+*/
 
+//drugi sposob -> zastepuje poprzednio przypisanego listernera
+nextButton.onclick = getNextPlanets;
+prevButton.onclick = getPreviousPlanets;
+  
 createAndSendRequest();
