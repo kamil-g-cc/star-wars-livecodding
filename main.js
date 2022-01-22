@@ -11,7 +11,8 @@ function createAndSendRequest(){
 }
 
 function getNextPlanets(evnt, url){
-    this.disabled = true
+    //console.log('jestem tylko raz')
+    //this.disabled = true
     if(url === undefined) url = nextURL;
     request = new XMLHttpRequest();
     request.onreadystatechange = onReadyStateChangeListener;
@@ -21,7 +22,7 @@ function getNextPlanets(evnt, url){
 
 }
 function getPreviousPlanets(event, url){
-    this.disabled = true
+    //this.disabled = true
     if(url === undefined) url = prevURL;
     request = new XMLHttpRequest();
     request.onreadystatechange = onReadyStateChangeListener;
