@@ -8,17 +8,40 @@ function createAndSendRequest(){
     request.send();
 }
 
+function toCoMaBycZrobioneDlaKazdegoElementu(el,idx,list){
+    addPlanet(el.name, el.diameter);
+    
+}
+
 function onReadyStateChangeListener(){
     console.log(request.readyState);
     if (request.readyState === XMLHttpRequest.DONE && request.status === 200){
         responseJSON = JSON.parse(request.response);
         planetList = responseJSON.results;
-
-        planetList.forEach( (planet) => {
-            // console.log(item);
-            addPlanet(planet.name, planet.diameter);
+        /*
+        //pierwszy sposob
+        planetList.forEach(function(el){
+            addPlanet(el.name, el.diameter);
         });
-        //
+        
+        //drugi sposob
+        planetList.forEach((el) => {
+            addPlanet(el.name, el.diameter)
+        });
+        
+        //trzeci sposob
+        planetList.forEach(toCoMaBycZrobioneDlaKazdegoElementu);
+        
+        //czwarty sposob
+        for(let i = 0; i < planetList.length; i++){
+            addPlanet(planetList[i].name, planetList[i].diameter);
+        }
+        */
+        //piaty sposob
+        for(planet of planetList){
+            addPlanet(planet.name, planet.diameter);
+        }
+
     }
 }
 
